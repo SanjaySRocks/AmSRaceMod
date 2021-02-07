@@ -7,7 +7,9 @@ Counter-Strike 1.6/CZ Plugin
 A Race Plugin which will set a target for players to reach that number of kills and stand a winner.
 
 ###  Command ( just type in chat )
+
 `say /startmatch` // to start race 
+
 `say /stopmatch` // to end race forcefully
 
 
