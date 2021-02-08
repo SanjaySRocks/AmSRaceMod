@@ -16,4 +16,9 @@ A Race Plugin which will set a target for players to reach that number of kills 
 
 `amx_stoprace` // console command to stop race
 
+### Cvar
+
+`amx_racetarget "50"` // No. of kills for winning
+
+
 **If you found any bug please report me **
