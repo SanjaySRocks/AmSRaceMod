@@ -8,9 +8,12 @@ A Race Plugin which will set a target for players to reach that number of kills 
 
 ###  Command ( just type in chat )
 
-`say /startmatch` // to start race 
+`/startmatch` // to start race 
 
-`say /stopmatch` // to end race forcefully
+`/stopmatch` // to end race forcefully
 
+`amx_startrace` // console command to start race
+
+`amx_stoprace` // console command to stop race
 
 **If you found any bug please report me **
