@@ -6,6 +6,10 @@ Counter-Strike 1.6/CZ Plugin
 ### Description
 A Race Plugin which will set a target for players to reach that number of kills and stand a winner.
 
+### Cvar
+
+`amx_racetarget "50"` // No. of kills for winning
+
 ###  Command ( just type in chat )
 
 `/startmatch` // to start race 
@@ -16,9 +20,18 @@ A Race Plugin which will set a target for players to reach that number of kills 
 
 `amx_stoprace` // console command to stop race
 
-### Cvar
+### Changelog 1.3a-beta
+- Added ReAPI Support
+- Added CVAR for target
+- Added Respawn with Random Weapons
+- Added DeathMatch as default
+- Added Infinite Round
+- Added Drop block
+- Added Screen Fade on kill
+- Added Hostname Changes when Race is Activated
+- Hostname Shows Current Race Leader
+- Code Optimzations
 
-`amx_racetarget "50"` // No. of kills for winning
 
 
 **If you found any bug please report me **
