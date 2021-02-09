@@ -1,7 +1,7 @@
 # AmSRaceMod
 Counter-Strike 1.6/CZ Plugin
 
-### Version 1.1-beta
+### Version 1.3a-beta
 
 ### Description
 A Race Plugin which will set a target for players to reach that number of kills and stand a winner.
