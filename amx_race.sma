@@ -1,13 +1,6 @@
-// Added drop block
-// added random weapons
-// Added Screen Fade on kill
-// added hostname and game name change
-// Some code optimaztion
-
 #include <amxmodx>
 #include <reapi>
 #include <cromchat>
-#pragma compress 1
 
 #define VERSION "1.3a-beta"
 
@@ -17,8 +10,10 @@ new bool:gRaceStart=false;
 new bool:gRaceLive=false;
 new bool:gWinnerFound=false;
 
-//new giWinnerID;
+new giWinnerID;
 new giFrag, giDeath;
+new giHS[32], Float:giDamage[32];
+//new giAssist[32];
 new gszWinnerName[32];
 new g_maxplayers;
 
@@ -70,12 +65,50 @@ public plugin_init() {
     register_clcmd("drop","HandleDrop");
 
     RegisterHookChain(RG_CBasePlayer_Spawn, "GiveRandom", true);
+    RegisterHookChain(RG_CBasePlayer_TakeDamage, "OnTakeDamage", 1);
+    RegisterHookChain(RG_CBasePlayer_Killed, "OnPlayerKilled", 1);
 
     msgScreenFade = get_user_msgid("ScreenFade")
     g_maxplayers = get_maxplayers()
 
     get_cvar_string("hostname", g_szhostname, 63)
 }
+
+public client_connect(id)
+{
+    giHS[id]=0
+    giDamage[id]=0.0
+   // giAssist[id]=0
+}
+
+public client_disconnected(id)
+{
+    giHS[id]=0
+    giDamage[id]=0.0
+   // giAssist[id]=0
+}
+
+public OnTakeDamage(iVictim, iInflictor, iAttacker, Float:fDamage, iDamageBits)  
+{  
+    if(is_user_connected(iAttacker) && iAttacker != iVictim && is_user_connected(iVictim))
+    {
+        if(get_member(iAttacker, m_iTeam) != get_member(iVictim, m_iTeam))
+            giDamage[iAttacker] += fDamage 
+    }
+}
+
+public OnPlayerKilled(iVictim, iAttacker, iGib)
+{  
+    if(is_user_connected(iAttacker) && iAttacker != iVictim && is_user_connected(iVictim))
+    {
+        if(get_member(iAttacker, m_iTeam) != get_member(iVictim, m_iTeam))
+        {
+            if(get_member(iVictim, m_bHeadshotKilled))
+                giHS[iAttacker]++;
+        }
+    }
+}
+
 
 public GiveRandom(id)
 {
@@ -241,7 +274,7 @@ public best_player()
 
     if(get_user_frags(best) >= gRaceTarget)
     {
-        //giWinnerID = best;
+        giWinnerID = best;
         giFrag = get_user_frags(best)
         giDeath = get_user_deaths(best)
 
@@ -262,14 +295,19 @@ public best_player()
 public ShowRaceWinner()
 {
     // CC_SendMessage(0, "RAce Winner is %s", gszWinnerName);
-    set_dhudmessage(255, 255, 255, -1.0, 0.20, 0, 6.0, 8.0, 0.1, 0.2)
-    show_dhudmessage(0, "====================^n Race Winner ^n====================");
+    set_dhudmessage(0, 255, 0, -1.0, 0.15, 0, 6.0, 8.0, 0.1, 0.2)
+    show_dhudmessage(0, "-= Race Winner =-");
 
-    set_dhudmessage(255, 255, 255, -1.0, 0.36, 0, 6.0, 8.0, 0.1, 0.2)
-    show_dhudmessage(0, "%s^nScore ( %d : %d ) ^n^n Congratulations !", gszWinnerName, giFrag, giDeath)
+    set_dhudmessage(255, 255, 255, -1.0, 0.20, 0, 6.0, 8.0, 0.1, 0.2)
+    show_dhudmessage(0, "%s^nScore ( %i : %i ) ^n^n Congratulations !", gszWinnerName, giFrag, giDeath)
+
+    set_dhudmessage(255, 255, 255, -1.0, 0.37, 0, 6.0, 8.0, 0.1, 0.2)
+    show_dhudmessage(0, "Race Stats^n-----------------------^nTotal Headshots ( %i HS )^nTotal Damage ( %.1f Dmg )", 
+    giHS[giWinnerID], giDamage[giWinnerID])
 
     CC_SendMessage(0, "&x03[AmS GAMinG]  &x04Loading Pub Settings!!")
 
+    client_cmd(giWinnerID, "snapshot");
 }
 
 
@@ -290,6 +328,9 @@ public LoadPubSetting()
     server_cmd("mp_maxmoney 16000");
     server_cmd("mp_infinite_ammo 0");
 
+    giHS[0] = 0;
+    giDamage[0] = 0.0;
+    //giAssist[0] = 0;
     //Load Server.cfg
     server_cmd("exec server.cfg");
 }
