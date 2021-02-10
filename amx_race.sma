@@ -307,7 +307,8 @@ public ShowRaceWinner()
 
     CC_SendMessage(0, "&x03[AmS GAMinG]  &x04Loading Pub Settings!!")
 
-    client_cmd(giWinnerID, "snapshot");
+    if(is_user_connected(giWinnerID))
+    	client_cmd(giWinnerID, "snapshot");
 }
 
 
