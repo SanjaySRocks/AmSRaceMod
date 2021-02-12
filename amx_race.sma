@@ -51,6 +51,7 @@ new SecWeapons[6][]=
 
 new g_szhostname[64]
 new msgScreenFade;
+new gAddHealth;
 
 public plugin_init() {
     register_plugin("AmS Race Mod", VERSION, "SkY#IN")
@@ -63,6 +64,8 @@ public plugin_init() {
     register_clcmd("amx_startrace", "funcStartRace")
     register_clcmd("amx_stoprace", "funcStopRace")
     register_clcmd("drop","HandleDrop");
+
+    gAddHealth = register_cvar("amx_race_health","25");
 
     RegisterHookChain(RG_CBasePlayer_Spawn, "GiveRandom", true);
     RegisterHookChain(RG_CBasePlayer_TakeDamage, "OnTakeDamage", 1);
@@ -90,6 +93,9 @@ public client_disconnected(id)
 
 public OnTakeDamage(iVictim, iInflictor, iAttacker, Float:fDamage, iDamageBits)  
 {  
+    if(!gRaceLive)
+        return
+
     if(is_user_connected(iAttacker) && iAttacker != iVictim && is_user_connected(iVictim))
     {
         if(get_member(iAttacker, m_iTeam) != get_member(iVictim, m_iTeam))
@@ -99,6 +105,9 @@ public OnTakeDamage(iVictim, iInflictor, iAttacker, Float:fDamage, iDamageBits)
 
 public OnPlayerKilled(iVictim, iAttacker, iGib)
 {  
+    if(!gRaceLive)
+        return
+
     if(is_user_connected(iAttacker) && iAttacker != iVictim && is_user_connected(iVictim))
     {
         if(get_member(iAttacker, m_iTeam) != get_member(iVictim, m_iTeam))
@@ -107,6 +116,17 @@ public OnPlayerKilled(iVictim, iAttacker, iGib)
                 giHS[iAttacker]++;
         }
     }
+    
+    new Float:health = get_entvar(iAttacker, var_health);
+    new addhealth = get_pcvar_num(gAddHealth);
+    health += addhealth;
+
+    if(health > 100.0)
+        health = 100.0
+
+    set_entvar(iAttacker, var_health, health);
+    set_dhudmessage(232, 79, 79, -1.0, 0.15, 0, 1.0, 1.0, 0.1, 0.1)
+    show_dhudmessage(iAttacker, "+%i HP", addhealth)
 }
 
 
@@ -298,7 +318,7 @@ public ShowRaceWinner()
     set_dhudmessage(0, 255, 0, -1.0, 0.15, 0, 6.0, 8.0, 0.1, 0.2)
     show_dhudmessage(0, "-= Race Winner =-");
 
-    set_dhudmessage(255, 255, 255, -1.0, 0.20, 0, 6.0, 8.0, 0.1, 0.2)
+    set_dhudmessage(255, 255, 255, -1.0, 0.20, 0, 6.0, 12.0, 0.1, 0.2)
     show_dhudmessage(0, "%s^nScore ( %i : %i ) ^n^n Congratulations !", gszWinnerName, giFrag, giDeath)
 
     set_dhudmessage(255, 255, 255, -1.0, 0.37, 0, 6.0, 8.0, 0.1, 0.2)
