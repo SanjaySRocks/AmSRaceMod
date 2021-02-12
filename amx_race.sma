@@ -2,7 +2,7 @@
 #include <reapi>
 #include <cromchat>
 
-#define VERSION "1.3a-beta"
+#define VERSION "1.4a-beta"
 
 new gCvarRaceTarget;
 new gRaceTarget;
