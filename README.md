@@ -1,7 +1,7 @@
 # AmSRaceMod
 CS 1.6 Plugin
 
-[![GitHub release](https://img.shields.io/badge/version-1.4a--beta-blue)](https://github.com/SanjaySRocks/AmSRaceMod/archive/main.zip)
+[![GitHub release](https://img.shields.io/badge/version-1.4a--beta-brightgreen)](https://github.com/SanjaySRocks/AmSRaceMod/archive/main.zip)
 
 #### A Race Plugin which will set a target for players to reach that number of kills and stand a winner.
 
