@@ -290,7 +290,7 @@ public best_player()
     set_dhudmessage(192,192,192, -1.0, 0.06, 0, 6.0, 1.0, 0.1, 0.2)
     show_dhudmessage(0, "%s [kills %d]", g_playername, get_user_frags(best))
 
-    server_cmd("hostname ^"%s [Race Leader: %s ]^"", g_szhostname, g_playername);
+    //server_cmd("hostname ^"%s [Race Leader: %s ]^"", g_szhostname, g_playername);
 
     if(get_user_frags(best) >= gRaceTarget)
     {
