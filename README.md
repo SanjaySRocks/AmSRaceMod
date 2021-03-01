@@ -1,10 +1,9 @@
 # AmSRaceMod
-Counter-Strike 1.6/CZ Plugin
+CS 1.6 Plugin
 
-### Version 1.4a-beta
+[![GitHub release](https://img.shields.io/badge/version-1.4a--beta-brightgreen)](https://github.com/SanjaySRocks/AmSRaceMod/archive/main.zip)
 
-### Description
-A Race Plugin which will set a target for players to reach that number of kills and stand a winner.
+#### A Race Plugin which will set a target for players to reach that number of kills and stand a winner.
 
 ### Cvar
 
@@ -14,9 +13,9 @@ A Race Plugin which will set a target for players to reach that number of kills 
 
 ###  Command ( just type in chat )
 
-`/startmatch` // to start race 
+`/startrace` // to start race 
 
-`/stopmatch` // to end race forcefully
+`/stoprace` // to end race forcefully
 
 `amx_startrace` // console command to start race
 
